@@ -1,0 +1,164 @@
+<!DOCTYPE html-->
+    <html>
+        <head>
+            <title>Aplicacion Movil </title>
+            <meta charset="UTF-8">
+            <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+            <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+            <script src="js/jquery.js"></script>
+            <script src="js/jquery.mobile-1.4.5.min.js"></script>
+            <style type="text/css">
+                p{
+                    text-align: center;
+                }
+                #menu{
+                    width: 300px;
+                    height: 40px;
+                }
+                #piepag{
+                    position: absolute;
+                    width: 100%;
+                    top: 90%;
+                    
+                }
+                #datos{
+                    position: absolute;
+                }
+            </style>
+                <script type="text/javascript">
+                $(document).ready(function inicio(){
+                var btnRecAlum=$("#RecibirAlum");
+                var btnRecCal=$("#RecibirCal");
+
+                btnRecAlum.click(function enviarDatos(){
+
+                    var nom=$("#nombre").val();
+                    var app=$("#apepa").val();
+                    var apm=$("#apema").val();
+                    var ncon=$("#Ncontrol").val();
+                    var ema=$("#Email").val();
+                    var sem=$("#semestre").val();
+                    
+      $.ajax({
+          type:"POST",
+          url:"http://zer069.260mb.net/recibirdatosAlumnos.php",
+          data:"Nombre="+nom+"&Apellido_Paterno="+app+"&Apellido_Materno="+apm+"&Numero_Control="+ncon+"&Email="+ema+"&Semestre="+sem,
+          success:recepcion
+      })
+     });
+
+btnRecCal.click(function enviarDatos(){
+
+
+        var ncon=$("#controll").val();
+        var p1=parseInt($("#par1").val());
+        var p2=parseInt($("#par2").val());
+        var p3=parseInt($("#par3").val());
+        var p4=parseInt($("#par4").val());
+        var prom=((p1+p2+p3+p4)/4);
+
+                
+        $.ajax({
+        type:"POST",
+        url:"http://zer069.260mb.net/recibirdatosCalificaciones.php",
+        data:"NumeroControl="+ncon+"&Par1="+p1+"&Par2="+p2+"&Par3="+p3+"&Par4="+p4+"&Promedio="+prom,
+        success:recepcion
+        })
+        });
+
+        function recepcion(datos){
+        alert(datos);
+        }    
+        });
+
+            </script>
+        </head>
+        <body>
+            <div data-role="page" id="Principal" data-theme="a">
+                <div data-role="header">
+                    <p>Aplicacion para alumnos</p>
+                </div>
+                <div dato-role="content">
+                    <h1>Seleccione una opcion</h1>
+                    <a href="#Reg_Cali" data-role="button" data-transition="slideup" id="menu">REGISTRO DE ALUMNOS</a>
+                    <a href="#Reg_Datos" data-role="button" data-transition="slideup" id="menu">REGISTRO DE CALIFICACIONES</a>
+                </div>
+                <div data-role="footer" id="piepag">
+                    <p>Pie de página</p>
+                </div>
+            </div>
+            
+            <div data-role="page" id="Reg_Datos" data-theme="b">
+                <div data-role="header">
+                    <a href="#Principal" data-role="button" data-transition="flip" data-add-back-btn="true" data-icon="home">Regresar</a>
+                    <p>Registro de alumnos</p>
+                </div>
+                <div data-role="content">
+
+                    <form method="POST" action="recibirdatosCalificaciones.php">
+                        <div class="ui-field-contain">
+                           
+                            <label for="controll">Numero de control: </label>
+                            <input type="text" name="controll" id="controll">
+                
+                            <label for="par1">Parcial 1: </label>
+                            <input type="text" name="par1" id="par1">
+                
+                            <label for="par2">Parcial 2: </label>
+                            <input type="text" name="par2" id="par2">
+                
+                            <label for="par3">Parcial 3: </label>
+                            <input type="text" name="par3" id="par3">
+                
+                            <label for="par4">Parcial 4: </label>
+                            <input type="text" name="par4" id="par4">
+               
+            </div>
+            <input type="button" name="RecibirCal" id="RecibirCal" value="Enviar">
+                
+        </form>
+                   <div id="respuesta"> </div> 
+                </div>
+                <div data-roler="footer">
+                    <p>Derechos reservados Zer069</p>
+                </div>
+            </div>
+            
+            <div data-role="page" id="Reg_Cali" data-theme="b">
+                <div data-role="header">
+                    <a href="#Principal" data-role="button" data-transition="flip" data-add-back-btn="true" data-icon="home">Regresar</a>
+                    <p>Registro de Alumnos</p>
+                </div>
+                <div data-role="content">
+
+                    <form method="POST" action="recibirdatosAlumnos.php" id="datos">
+                        <div class="ui-field-contain">
+                           
+                            <label for="nombre">Nombre: </label>
+                            <input type="text" name="nombre" id="nombre">
+                
+                            <label for="apepa">Apellido Paterno: </label>
+                            <input type="text" name="apepa" id="apepa">
+                
+                            <label for="apema">Apellido Materno: </label>
+                            <input type="text" name="apema" id="apema">
+                
+                            <label for="Ncontrol">Número de control: </label>
+                            <input type="text" name="Ncontrol" id="Ncontrol">
+                
+                            <label for="Email">Email: </label>
+                            <input type="text" name="Email" id="Email" placeholder="alumno@servicio.extensión">
+                
+                            <label for="semestre">Semestre: </label>
+                            <input type="text" name="semestre" id="semestre">
+            </div>
+            <input type="button" name="RecibirAlum" id="RecibirAlum" value="Enviar">
+        </form>
+        <div id="respuesta1"> </div>
+                </div>
+                <div data-roler="footer" id="cali">
+                    <p>Derechos reservados</p>
+                </div>
+            </div>
+        </body>
+    </html>
